@@ -1,0 +1,14 @@
+body{
+    font-family: Arial;
+    min-height: 500px;
+    text-align: center;
+}
+div#quiz{
+    margin:auto;
+    padding: 40px 40px 40px;
+    background-color: #E5FCE3;
+    width: 75%;
+    align-content: center;
+    border-style: inset;
+}
+
