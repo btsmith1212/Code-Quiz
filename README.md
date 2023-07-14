@@ -21,6 +21,7 @@ Please refer to the LICENSE in the repo.
 
 ## Code Sources
 https://btsmith1212.github.io/Code-Quiz/
+https://github.com/btsmith1212/Code-Quiz.git
 
 ## Screenshot
 <img width="958" alt="Capture" src="https://github.com/btsmith1212/Code-Quiz/assets/135077506/80ff5f39-d117-4eb9-9f85-41ce2dc673af">
