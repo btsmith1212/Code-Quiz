@@ -9,7 +9,7 @@ N/A
 
 ## Usage
 
-To use this quiz, click start. On each page select a response and the click submit. A timer will tick down throughout. The user will have the opportunity to input their initials into the leaderboard at the end.
+To use this quiz, click start. On each page select a response and then click submit. A timer will tick down throughout. The user will have the opportunity to input their initials into the leaderboard at the end.
 
 ## Credits
 
