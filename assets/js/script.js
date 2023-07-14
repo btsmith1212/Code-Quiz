@@ -1,6 +1,11 @@
 var pos = 0, quiz, quiz_status, question, selectedAnswer, options, optionA, optionB, optionC, optionD, correct = 0;
 var countSpan = document.getElementById("count");
 var feedback = document.getElementById("feedback");
+var score = document.getElementById("scoreTotal");
+var counter;
+var counterTime;
+//get this from local storage
+var highScores = [];
 //added global variables
 var questions = [
     {
@@ -49,6 +54,14 @@ var questions = [
     },
 ];
 // set questions as arrays
+function show() {
+  var hide = document.getElementsByClassName("exp");
+  if(hide[0].offsetWidth > 0 && hide[0].offsetHeight > 0) {
+      hide[0].style.visibility = "visible";
+  }
+}
+//hid quiz until start button is selected
+
 function get(x){
     return document.getElementById(x);
   }
@@ -56,11 +69,12 @@ function get(x){
   function newQuestion(){
     quiz = get("quiz");
     if(pos >= questions.length){
-      quiz.innerHTML = "<h2>You answered "+correct+" of "+questions.length+" questions correctly.</h2><br><button onclick='newQuestion()', button onclick=clearinterval(counter)>Play again</button>";
+      quiz.innerHTML = "<h2>You answered "+correct+" of "+questions.length+" questions correctly.</h2><br><button onclick='newQuestion()', button onclick=clearinterval(counter);>Play again</button>";
       get("quiz_status").innerHTML = "Quiz completed";
       pos = 0;
       correct = 0;
       countSpan.innerHTML = "";
+      clearInterval(counter);
       return false;
 
     }
@@ -93,11 +107,13 @@ function get(x){
     }
     if(selectedAnswer == questions[pos].answer){
       correct++;
+      countSpan.innerHTML = "";
       feedback.textContent = "Correct"
     }
     else{
       feedback.textContent = "Wrong"
     }
+    score.innerHTML=correct;
     pos++;
     newQuestion();
   }
@@ -107,13 +123,13 @@ function get(x){
   //loads new question
 
   function startTimer(){
-    var counter = 60;
-    setInterval(function() {
-      counter--;
-      if (counter >= 0) {
-        countSpan.innerHTML = counter;
+    counterTime = 60;
+    counter = setInterval(function() {
+      counterTime--;
+      if (counterTime >= 0) {
+        countSpan.innerHTML = counterTime;
       }
-      if (counter === 0) {
+      if (counterTime === 0) {
           alert('Out of time!');
           clearInterval(counter);
       }
@@ -125,12 +141,15 @@ function get(x){
       document.getElementById("count").style="color:black;";
       startTimer();
   };
+// couldnt figure out how to make timer subtract time if missed question, will need to work through further
+element.addEventListener("click", addScore);
 
-  function show() {
-    var hid = document.getElementsByClassName("exp");
-    if(hid[0].offsetWidth > 0 && hid[0].offsetHeight > 0) {
-        hid[0].style.visibility = "visible";
-    }
+function scores() {
+  document.getElementById("addScore").innerHTML = highScores;
+  highScores.push({initials: value, score: value});
 }
 
-//hid quiz until start button is selected
+var string = JSON.stringify(highScores);
+localstorage.setItem("highScores", string);
+var highScores = JSON.parse(localStorage.getItem("highScores"))
+//stored highScores array to local storage, may not work correctly, will need to debug further
