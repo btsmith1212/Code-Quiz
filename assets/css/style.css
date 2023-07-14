@@ -12,3 +12,13 @@ div#quiz{
     border-style: inset;
 }
 
+
+#count{
+   margin-left:20px;
+   font-size:30px;
+   color:black;
+}
+
+.exp{
+    visibility:hidden;
+}

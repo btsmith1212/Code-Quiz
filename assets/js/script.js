@@ -1,5 +1,7 @@
 var pos = 0, quiz, quiz_status, question, selectedAnswer, options, optionA, optionB, optionC, optionD, correct = 0;
-
+var countSpan = document.getElementById("count");
+var feedback = document.getElementById("feedback");
+//added global variables
 var questions = [
     {
     question: "Commonly used data types do NOT include:",
@@ -43,69 +45,92 @@ var questions = [
     b: "terminal/bash",
     c: "for loops",
     d: "console.log",
-    answer: "C"
+    answer: "D"
     },
-
 ];
-
-// this get function is short for the getElementById function	
+// set questions as arrays
 function get(x){
     return document.getElementById(x);
   }
-  
-  // this function renders a question for display on the page
-  function renderQuestion(){
+  //master function
+  function newQuestion(){
     quiz = get("quiz");
     if(pos >= questions.length){
-      quiz.innerHTML = "<h2>You answered "+correct+" of "+questions.length+" questions correctly.</h2><br><button onclick='renderQuestion()'>Play again</button>";
+      quiz.innerHTML = "<h2>You answered "+correct+" of "+questions.length+" questions correctly.</h2><br><button onclick='newQuestion()', button onclick=clearinterval(counter)>Play again</button>";
       get("quiz_status").innerHTML = "Quiz completed";
-      // resets the variable to allow users to restart the quiz
       pos = 0;
       correct = 0;
-      // stops rest of renderQuestion function running when quiz is completed
+      countSpan.innerHTML = "";
       return false;
+
     }
-  
+    //results function
     get("quiz_status").innerHTML = "Question "+(pos+1)+" of "+questions.length;
-    
+    //details where on quiz you are
     question = questions[pos].question;
     optionA = questions[pos].a;
     optionB = questions[pos].b;
     optionC = questions[pos].c;
     optionD = questions[pos].d;
   
-    // display the current question
     quiz.innerHTML = "<h3>"+question+"</h3>";
   
 
-    // display the answer options
-    // the += appends to the data we started on the line above
-    quiz.innerHTML += "<label> <input type='button' name='options' value="+optionA+"></label><br>";
-    quiz.innerHTML += "<label> <input type='button' name='options' value="+optionB+"></label><br>";
-    quiz.innerHTML += "<label> <input type='button' name='options' value="+optionC+"></label><br>";
-    quiz.innerHTML += "<label> <input type='button' name='options' value="+optionD+"></label><br><br>";
+    quiz.innerHTML += "<label> <input type='radio' name='options' value='A'> "+optionA+"</label><br>";
+    quiz.innerHTML += "<label> <input type='radio' name='options' value='B'> "+optionB+"</label><br>";
+    quiz.innerHTML += "<label> <input type='radio' name='options' value='C'> "+optionC+"</label><br>";
+    quiz.innerHTML += "<label> <input type='radio' name='options' value='D'> "+optionD+"</label><br><br>";
     quiz.innerHTML += "<button onclick='checkAnswer()'>Submit Answer</button>";
-    
+    //main quiz body, draws questions and options from array
   }
   
   function checkAnswer(){
-    // use getElementsByName because we have an array which it will loop through
     options = document.getElementsByName("options");
     for(var i=0; i < options.length; i++){
       if(options[i].checked){
         selectedAnswer = options[i].value;
       }
     }
-    // checks if selected answer matches the correct answer
     if(selectedAnswer == questions[pos].answer){
-      //each time there is a correct answer this value increases
       correct++;
+      feedback.textContent = "Correct"
     }
-    // changes position of which questions user is up to
+    else{
+      feedback.textContent = "Wrong"
+    }
     pos++;
-    // then the renderQuestion function is called again to go to next question
-    renderQuestion();
+    newQuestion();
   }
-  // Add event listener to call renderQuestion on page load event
-  window.addEventListener("load", renderQuestion);
+  //checks if answer is correct, adds to total
+  //added feedback based on prior questions answer
+  window.addEventListener("load", newQuestion);
+  //loads new question
 
+  function startTimer(){
+    var counter = 60;
+    setInterval(function() {
+      counter--;
+      if (counter >= 0) {
+        countSpan.innerHTML = counter;
+      }
+      if (counter === 0) {
+          alert('Out of time!');
+          clearInterval(counter);
+      }
+
+    }, 1000);
+  }
+  //added timer
+  function start(){
+      document.getElementById("count").style="color:black;";
+      startTimer();
+  };
+
+  function show() {
+    var hid = document.getElementsByClassName("exp");
+    if(hid[0].offsetWidth > 0 && hid[0].offsetHeight > 0) {
+        hid[0].style.visibility = "visible";
+    }
+}
+
+//hid quiz until start button is selected
